@@ -2,6 +2,8 @@
 
 [Windows/Android]()
 
+# [Limitations]()
+
 # FAQ
 
 If you have any questions let me know. I will update this document for testing more facebook elements.
