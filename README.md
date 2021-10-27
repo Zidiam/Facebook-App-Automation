@@ -1,8 +1,8 @@
 # Facebook-App-Automation Tutorial:
 
-[Windows/Android]()
+[Windows/Android](https://github.com/Zidiam/Facebook-App-Automation/blob/master/WindowsSetupAndroid.md)
 
-# [Limitations]()
+# [Limitations](https://github.com/Zidiam/Facebook-App-Automation/blob/master/Limitations.md)
 
 # FAQ
 
