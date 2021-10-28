@@ -184,8 +184,8 @@ test('Logging In', async() =>{
     }
     const confirmed = await client.$(PROFILE).isDisplayed();
     expect(confirmed).toBe(true);
-});"appPackage": "com.facebook.katana",
-  "appActivity": ".LoginActivity"
+});
+
 }
 ```
 
