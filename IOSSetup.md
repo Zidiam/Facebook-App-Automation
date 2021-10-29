@@ -2,7 +2,7 @@
 
 This code will test Facebooks app features on Android. This will use Jest for the testing. Appium and WebDriverIO is for automating the tasks.
 
-##Windows
+## Windows
 This tutorial can only work on MAC OS so you will need to do this [tutorial](https://techschumz.com/install-macos-monterey-on-virtualbox-on-windows-10/) to run a virtual mac on your windows machine. The rest of the tutorial will be done on the mac machine.
 
 ## Required Downloads
