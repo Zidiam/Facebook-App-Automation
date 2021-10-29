@@ -1,4 +1,4 @@
-# Windows/Android Tutorial:
+# Android Tutorial:
 
 This code will test Facebooks apps features on Android on Windows OS. This will use Jest for the testing. Appium and WebDriverIO is for automating the tasks.
 
@@ -63,7 +63,7 @@ Directory should look like this:
 -package.json
 ```
 ## Getting Facebooks API information
-[Run Android Emulator](###-How-to-run-the-emulator)
+Run Android Emulator
 
 In the emulator download Facebook from the 'Play Store'
 
