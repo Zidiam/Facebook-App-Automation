@@ -19,14 +19,14 @@ This tutorial can only work on MAC OS so you will need to do this [tutorial](htt
 
 [Visual Studio Code](https://code.visualstudio.com/download)
 
-##Download Simulator
+## Download Simulator
 Open Xcode and install all tools and go through installation.
 
 On the top bar click Xcode and in the dropdown press Preferences.
 
 Then press components and download the latest simulator.
 
-##Terminal Commands
+## Terminal Commands
 ```bash
 xcode-select --install
 brew install carthage
@@ -39,6 +39,8 @@ code .
 ```
 
 ## Setup Files
+Open Facebook-App-Automation directory in VSCode
+
 Open package.json and change "test" value to "jest"
 
 Create a folder named `tests` and create another folder inside named `__tests__`
