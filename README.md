@@ -1,6 +1,8 @@
 # Facebook-App-Automation Tutorial:
 ## Tutorials
-[Windows/Android](https://github.com/Zidiam/Facebook-App-Automation/blob/master/WindowsSetupAndroid.md)
+[Android](https://github.com/Zidiam/Facebook-App-Automation/blob/master/AndroidSetup.md)
+
+[IOS](https://github.com/Zidiam/Facebook-App-Automation/blob/master/IOSSetup.md)
 
 ## Limitations
 There are many problems and limitations when it comes to automating Facebook's mobile app. Read [this](https://github.com/Zidiam/Facebook-App-Automation/blob/master/Limitations.md) for more information.
