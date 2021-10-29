@@ -22,6 +22,11 @@ This code will test Facebooks apps features on Android on Windows OS. This will 
 
 [JAVA_HOME](https://confluence.atlassian.com/doc/setting-the-java_home-variable-in-windows-8895.html)
 
+#### MAC
+[ANDROID_HOME](https://www.panayiotisgeorgiou.net/setting-android-home-enviromental-variable-on-macosx/)
+
+[JAVA_HOME](https://mkyong.com/java/how-to-set-java_home-environment-variable-on-mac-os-x/)
+
 ## Create Emulated Device
 Open Android Studio and click 'More Actions'. Click on 'AVD Manager' in the drop down menu. Then click '+Create Virtual Device' and select Pixel 2. Click 'Next' then click 'Download' next to the R for 'Release Name'. After installation click 'Next' and finally click 'Finish'.
 ### How to run the emulator
