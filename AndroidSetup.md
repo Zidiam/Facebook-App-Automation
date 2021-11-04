@@ -50,14 +50,14 @@ Then type ``` code .``` to open 'Facebook-App-Automation' project in Visual Stud
 ## Setup Files
 Open package.json and change "test" value to "jest"
 
-Create a folder named `tests` and create another folder inside named `__tests__`
+Create a folder named `tests`
 
-Inside the `__tests__` folder create a file named login.test.js
+Inside the `tests` folder create a file named login.test.js
 
 Directory should look like this:
 ```bash
 -node_modules
--tests\__tests__
+-tests
     -login.test.js
 -package-lock.json
 -package.json
@@ -202,7 +202,7 @@ Type `npm run test`
 You should get
 
 ```bash
- PASS  tests/__tests__/login.test.js (24.879 s)
+ PASS  tests/login.test.js (24.879 s)
   √ Connected (10017 ms)
   √ Logging In (13625 ms)
 
