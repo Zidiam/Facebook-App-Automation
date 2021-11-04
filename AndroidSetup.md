@@ -202,7 +202,7 @@ Type `npm run test`
 You should get
 
 ```bash
- PASS  tests/__tests__/login.test.js (24.879 s)
+ PASS  tests/login.test.js (24.879 s)
   √ Connected (10017 ms)
   √ Logging In (13625 ms)
 
