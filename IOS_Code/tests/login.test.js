@@ -91,9 +91,15 @@ test('Successfull Login', async() =>{
     await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
     await client.$(LOGIN_BTN).click();
 
-    await client.$(NOT_NOW_BTN).click();
-    await client.$(SKIP_BTN).click();
-    await client.$(SKIP_BTN2).click();
+    if(await client.$(NOT_NOW_BTN).isDisplayed()){
+        await client.$(NOT_NOW_BTN).click();
+    }
+    if(await client.$(SKIP_BTN).isDisplayed()){
+        await client.$(SKIP_BTN).click();
+    }
+    if(await client.$(SKIP_BTN2).isDisplayed()){
+        await client.$(SKIP_BTN2).click();
+    }
 
     const confirmed = await client.$(PROFILE).isDisplayed();
     expect(confirmed).toBe(true);
