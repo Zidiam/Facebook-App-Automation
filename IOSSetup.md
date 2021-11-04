@@ -41,7 +41,7 @@ code .
 ## Setup Files
 Open Facebook-App-Automation directory in VSCode
 
-Open package.json and change "test" value to "jest"
+Open package.json and change ``` "test": "echo \"Error: no test specified\" && exit 1" ``` to ``` "test": "jest" ```
 
 Create a folder named `tests`
 
@@ -100,23 +100,23 @@ Now that you have the Safari app on your Appium Inspector you can find elements 
 
 On the top hotbar click the refresh button to make sure you are seeing the samething on your inspector and emulator
 
-### Getting 'accessibility id' elements
+### Getting 'accessibility id' or 'Xpath' elements
 
 In Appium Inspector
 
 Click on the url bar on the top
 
 On the right you will 'Selected Element'. In this you will see two tabs with 'Find By' and 'Selector'. In the 'Find By' tab you will see 'accessibility id
-' with the 'Selector' being 'URL'. 'URL' is important for when we start coding. Now type facebook.com and enter. Now do the same for the Login Field and the Password field and get their 'accessibility id'. 
+' with the 'Selector' being 'URL'. 'URL' is important for when we start coding. Now type facebook.com and enter. Now do the same for the Facebook Logo which will be under 'Xpath'.
 
-You should now have four values 'URL', 'Log In', 'Password', 'Email'
+You should now have four values 'URL' and '(//XCUIElementTypeLink[@name="facebook"])[1]'
 
 ### Using the Inspector
 You can use the Safari app on the emulator to get to a desired page. To view the desired page on the Appium Inspector you can click the refresh button on the top. This will now let you find elements you need to find which we will use later on.
 
 Example:
 
-Using Safari app to go to the Facebook website. Then refreshing on the Inspector to get the `` Log In `` elementId on the Facebook site.
+Using Safari app to go to the Facebook website. Then refreshing on the Inspector to get the ``(//XCUIElementTypeLink[@name="facebook"])[1]`` Xpath on the Facebook site.
 
 ## Creating Test
 
@@ -128,14 +128,6 @@ const wdio = require("webdriverio");
 jest.setTimeout(20000);
 
 //Declare Global Variables
-let CORRECT_EMAIL;
-let CORRECT_PASS;
-let client;
-let LOADING;
-let EMAIL_TXT_FIELD;
-let PASSWORD_TXT_FIELD;
-let LOGIN_BTN;
-let POPUP;
 let URL_BAR;
 let FACEBOOK;
 
@@ -152,31 +144,11 @@ const opts = {
     }
 };
 
-//This code opens facebook page
-async function FacebookPage(){
-    await client.$(URL_BAR).click();
-    await client.$(URL_BAR).setValue('facebook.com' + "\n");
-
-    const confirmed = await client.$(FACEBOOK).isDisplayed();
-};
-
 //This runs before any of the tests run
 beforeAll(()=>{
-    //ENTER YOUR EMAIL AND PASSWORD
-    CORRECT_EMAIL = 'melnik1jg@alma.edu';
-    CORRECT_PASS = 'MNFtQ:X4AucpNiz';
-
     //Accessibility ID
     URL_BAR = '~URL';
-    LOGIN_BTN = 'Log In';
-
-    //ElementID
-    EMAIL_TXT_FIELD = '58000000-0000-0000-1048-000000000000';
-    PASSWORD_TXT_FIELD = '58000000-0000-0000-1048-000000000000';
-
     //Xpath
-    LOADING = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ProgressBar';
-    POPUP = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView';
     FACEBOOK = '(//XCUIElementTypeLink[@name="facebook"])[1]';
 });
 
@@ -203,26 +175,6 @@ test('Connected To Facebooks Website', async() =>{
     const confirmed = await client.$(FACEBOOK).isDisplayed();
     expect(confirmed).toBe(true);
 });
-
-//This tests if the Login was successful
-test('Successfull Login', async() =>{
-    //Declare Values
-    const NOT_NOW_BTN = '~Not Now';
-    const SKIP_BTN = '~Skip';
-    const SKIP_BTN2 = 'B4040000-0000-0000-1048-000000000000';
-    const PROFILE = '~Profile';
-
-    await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
-    await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
-    await client.$(LOGIN_BTN).click();
-
-    await client.$(NOT_NOW_BTN).click();
-    await client.$(SKIP_BTN).click();
-    await client.$(SKIP_BTN2).click();
-
-    const confirmed = await client.$(PROFILE).isDisplayed();
-    expect(confirmed).toBe(true);
-});
 ```
 
 ## Running Test
@@ -233,9 +185,9 @@ Type `npm run test`
 You should get
 
 ```bash
- PASS  tests/__tests__/login.test.js (24.879 s)
+ PASS  tests/login.test.js (24.879 s)
   √ Connected (10017 ms)
-  √ Logging In (13625 ms)
+  √ Connected To Facebooks Website (13625 ms)
 
 Test Suites: 1 passed, 1 total
 Tests:       2 passed, 2 total
@@ -249,10 +201,10 @@ This code should look familiar. The constants are the values we found before whe
 ```bash
 //Declare Global Variables
 let URL_BAR;
-let LOGIN_BTN;
+let FACEBOOK;
 //Accessibility ID
 URL_BAR = '~URL';
-LOGIN_BTN = 'Log In';
+FACEBOOK = '(//XCUIElementTypeLink[@name="facebook"])[1]';
 ```
 
 The code below is the JSON representation we got from our saved capability 'safariAPI'. This code connects the test to the facebookapi.
@@ -268,16 +220,6 @@ const opts = {
         platformVersion: "14.3",
         bundleId: "com.apple.mobilesafari"
     }
-};
-```
-The code below opens facebooks website on safari
-
-```bash
-async function FacebookPage(){
-    await client.$(URL_BAR).click();
-    await client.$(URL_BAR).setValue('facebook.com' + "\n");
-
-    const confirmed = await client.$(FACEBOOK).isDisplayed();
 };
 ```
 
@@ -319,60 +261,22 @@ test('Connected To Facebooks Website', async() =>{
 });
 ```
 
-The code below tests Facebook's website login
-
-```bash
-test('Successfull Login', async() =>{
-    //Declare Values
-    const NOT_NOW_BTN = '~Not Now';
-    const SKIP_BTN = '~Skip';
-    const SKIP_BTN2 = 'B4040000-0000-0000-1048-000000000000';
-    const PROFILE = '~Profile';
-
-    await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
-    await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
-    await client.$(LOGIN_BTN).click();
-
-    if(await client.$(NOT_NOW_BTN).isDisplayed()){
-        await client.$(NOT_NOW_BTN).click();
-    }
-    if(await client.$(SKIP_BTN).isDisplayed()){
-        await client.$(SKIP_BTN).click();
-    }
-    if(await client.$(SKIP_BTN2).isDisplayed()){
-        await client.$(SKIP_BTN2).click();
-    }
-
-    const confirmed = await client.$(PROFILE).isDisplayed();
-    expect(confirmed).toBe(true);
-});
-```
-
 This code sets the elements input
 
 ```bash
-await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
-await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
+await client.$(URL_BAR).setValue('facebook.com' + "\n");
 ```
 
 This code clicks the element
 
 ```bash
-await client.$(LOGIN_BTN).click();
+await client.$(URL_BAR).click();
 ```
 
-This code just checks if there is a 'Skip' button that shows up for new users and if there is to just click it to continue.
+This code is finally the Jest Test to see if opening Facebook's website on Safari is successful. This is done by testing if the Facebook element is displayed. If its displayed then the test was successful.
 
 ```bash
-if(await client.$(NOT_NOW_BTN).isDisplayed()){
-        await client.$(NOT_NOW_BTN).click();
-}
-```
-
-This code is finally the Jest Test to see if the login is successful by testing if the profile element is displayed. If its displayed then the facebook login was successful.
-
-```bash
-const confirmed = await client.$(PROFILE).isDisplayed();
+const confirmed = await client.$(FACEBOOK).isDisplayed();
 expect(confirmed).toBe(true);
 ```
 
