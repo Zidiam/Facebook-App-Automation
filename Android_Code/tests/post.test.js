@@ -1,6 +1,7 @@
 //login.test.js
 
 //Setup webdriver
+const { describe } = require("jest-circus");
 const wdio = require("webdriverio");
 jest.setTimeout(200000);
 
@@ -54,6 +55,7 @@ async function LogIn(){
     const confirmed = await client.$(PROFILE).isDisplayed();
 };
 
+
 //This runs before any of the tests run
 beforeAll(()=>{
     //ENTER YOUR EMAIL AND PASSWORD
@@ -73,7 +75,7 @@ beforeAll(()=>{
 //This runs before each test
 beforeEach( async() => {
     client = await wdio.remote(opts);
-    LogIn();
+    await LogIn();
 });
 
 //This runs after each test
@@ -89,6 +91,7 @@ test('Connected', async() =>{
 //This tests if the Post was successful
 test('Successfull Post', async() =>{
     //declare element selector values
+    await Loading();
     const TEXT_FIELD = '//android.view.ViewGroup[@content-desc="Make a post on Facebook"]';
     const INPUT_FIELD = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.EditText';
     const POST_BTN = '~POST';
@@ -96,7 +99,6 @@ test('Successfull Post', async() =>{
 
     await client.$(TEXT_FIELD).click();
     await client.$(INPUT_FIELD).setValue('Test Post' + Math.floor(Math.random() * 10));
-    await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
     await client.$(POST_BTN).click();
 
     await Loading();
