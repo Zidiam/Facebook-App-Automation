@@ -1,6 +1,6 @@
 //Setup webdriver
 const wdio = require("webdriverio");
-jest.setTimeout(20000);
+jest.setTimeout(200000);
 
 //Declare Global Variables
 let CORRECT_EMAIL;
@@ -43,13 +43,11 @@ beforeAll(()=>{
 
     //Accessibility ID
     URL_BAR = '~URL';
-    LOGIN_BTN = 'Log In';
-
-    //ElementID
-    EMAIL_TXT_FIELD = '58000000-0000-0000-1048-000000000000';
-    PASSWORD_TXT_FIELD = '58000000-0000-0000-1048-000000000000';
+    LOGIN_BTN = '~Log In';
 
     //Xpath
+    EMAIL_TXT_FIELD = '//XCUIElementTypeOther[@name="main"]/XCUIElementTypeTextField';
+    PASSWORD_TXT_FIELD = '//XCUIElementTypeOther[@name="main"]/XCUIElementTypeSecureTextField';
     LOADING = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ProgressBar';
     POPUP = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView';
     FACEBOOK = '(//XCUIElementTypeLink[@name="facebook"])[1]';
@@ -84,23 +82,39 @@ test('Successfull Login', async() =>{
     //Declare Values
     const NOT_NOW_BTN = '~Not Now';
     const SKIP_BTN = '~Skip';
-    const SKIP_BTN2 = 'B4040000-0000-0000-1048-000000000000';
     const PROFILE = '~Profile';
 
     await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
     await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS);
     await client.$(LOGIN_BTN).click();
 
-    if(await client.$(NOT_NOW_BTN).isDisplayed()){
+    if (await client.$(NOT_NOW_BTN).isDisplayed()){
         await client.$(NOT_NOW_BTN).click();
     }
-    if(await client.$(SKIP_BTN).isDisplayed()){
+
+    if (await client.$(SKIP_BTN).isDisplayed()){
         await client.$(SKIP_BTN).click();
     }
-    if(await client.$(SKIP_BTN2).isDisplayed()){
-        await client.$(SKIP_BTN2).click();
-    }
 
+    await(client.pause(2000));
     const confirmed = await client.$(PROFILE).isDisplayed();
+    expect(confirmed).toBe(true);
+});
+
+//This tests posting on Facebook
+test('Facebook post successfull', async() =>{
+    await(client.pause(1000));
+    //Declare Values
+    const TEXT_FIELD = '(//XCUIElementTypeButton[@name="What\'s on your mind?"])[2]';
+    const INPUT_FIELD = '//XCUIElementTypeStaticText[@name="What\'s on your mind?"]'
+    const POST_BTN = '(//XCUIElementTypeButton[@name="Post"])[2]';
+    const PUBLISHED_CONFIRMATION = '//XCUIElementTypeStaticText[@name="Your post is now published."]';
+
+    await client.$(TEXT_FIELD).click();
+    await client.$(INPUT_FIELD).setValue('Test Post4');
+    await client.$(POST_BTN).click();
+
+    await(client.pause(500));
+    const confirmed = await client.$(PUBLISHED_CONFIRMATION).isDisplayed();
     expect(confirmed).toBe(true);
 });
