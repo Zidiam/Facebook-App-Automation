@@ -38,8 +38,8 @@ async function FacebookPage(){
 //This runs before any of the tests run
 beforeAll(()=>{
     //ENTER YOUR EMAIL AND PASSWORD
-    CORRECT_EMAIL = '';
-    CORRECT_PASS = '';
+    CORRECT_EMAIL = 'fekvtxc_chengwitz_1638509068@tfbnw.net';
+    CORRECT_PASS = 'ogct5b65vc1';
 
     //Accessibility ID
     URL_BAR = '~URL';
