@@ -2,17 +2,18 @@
 
 //Setup webdriver
 const wdio = require("webdriverio");
+//For long tests
 jest.setTimeout(200000);
 
 //Declare Global Variables
 let CORRECT_EMAIL;
 let CORRECT_PASS;
-let client;
 let LOADING;
 let EMAIL_TXT_FIELD;
 let PASSWORD_TXT_FIELD;
 let LOGIN_BTN;
 let POPUP;
+let client;
 
 //This code is specific to appium to connect to device
 const opts = {
@@ -29,36 +30,44 @@ const opts = {
 
 //This function waits until there is no longer a loading screen
 async function Loading(){
+    await client.pause(1000);
     while(await client.$(LOADING).isDisplayed()){
         await client.pause(1000);
     };
 }
 
 //This runs before any of the tests run
-beforeAll(()=>{
+beforeAll(async()=>{
     //ENTER YOUR EMAIL AND PASSWORD
-    CORRECT_EMAIL = 'fekvtxc_chengwitz_1638509068@tfbnw.net';
-    CORRECT_PASS = 'ogct5b65vc1';
+    CORRECT_EMAIL = 'lhyqhaz_zamoresen_1639163329@tfbnw.net';
+    CORRECT_PASS = 'kkvhre3e2xn';
 
     //Accessibility ID
     EMAIL_TXT_FIELD = '~Username';
     PASSWORD_TXT_FIELD = '~Password';
     LOGIN_BTN = '~Log In';
 
-    //Xpath
-    LOADING = '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.ProgressBar';
-    POPUP = '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[1]/android.widget.TextView';
+    //Class Name
+    LOADING = 'android.widget.ProgressBar';
+    POPUP = 'android.widget.TextView';
 });
 
 //This runs before each test
 beforeEach( async() => {
     client = await wdio.remote(opts);
+    await Loading();
 });
 
 //This runs after each test
 afterEach( async() => {
+    await client.reloadSession();
+});
+
+//This runs after all test
+afterAll( async() => {
     await client.deleteSession();
 });
+
 
 //This checks if the connection was successful
 test('Connected', async() =>{
@@ -67,8 +76,10 @@ test('Connected', async() =>{
 
 //This tests if the Login was successful
 test('Successfull Login', async() =>{
-    //declare element selector values
+    //Set Variable
     const SKIP = '~Skip';
+    const SKIP_CONFIRM = 'text("SKIP").className("android.widget.Button")';
+    const NOT_NOW_BTN = 'text("Not Now").className("android.widget.Button")';
     const PROFILE = '~Go to profile';
 
     await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
@@ -77,9 +88,16 @@ test('Successfull Login', async() =>{
 
     await Loading();
 
-    //New users have a skip popup
-    if(await client.$(SKIP).isDisplayed()){
+    while(await client.$(SKIP).isDisplayed()){
         await client.$(SKIP).click();
+        if(await client.$(`android=${SKIP_CONFIRM}`).isDisplayed()){
+            await client.$(`android=${SKIP_CONFIRM}`).click();
+            await Loading();
+        };
+    }
+
+    if(await client.$(`android=${NOT_NOW_BTN}`).isDisplayed()){
+        await client.$(`android=${NOT_NOW_BTN}`).click();
         await Loading();
     };
 
@@ -87,24 +105,11 @@ test('Successfull Login', async() =>{
     expect(confirmed).toBe(true);
 });
 
-//This tests if the login feature failed
-test('Login Failed', async() =>{
-    //declare element selector values
-    await client.$(EMAIL_TXT_FIELD).setValue('fakemail@gmail.com');
-    await client.$(PASSWORD_TXT_FIELD).setValue('fakepass');
-    await client.$(LOGIN_BTN).click();
-
-    await Loading();
-
-    const confirmed = await client.$(POPUP).getText();
-    expect(confirmed).toBe('Login Failed');
-});
-
 //This tests if your password was entered incorrectly
 test('Incorrect Password', async() =>{
-    //declare element selector values
+    //Set Input to Selected Elements
     await client.$(EMAIL_TXT_FIELD).setValue(CORRECT_EMAIL);
-    await client.$(PASSWORD_TXT_FIELD).setValue('Not Password');
+    await client.$(PASSWORD_TXT_FIELD).setValue(CORRECT_PASS + "n0p3");
     await client.$(LOGIN_BTN).click();
 
     await Loading();
@@ -115,7 +120,10 @@ test('Incorrect Password', async() =>{
 
 //This tests if Facebook has the email entered in their database
 test('No Account Found', async() =>{
-    //declare element selector values
+    //Set Input to Selected Elements
+    console.log("TESTER");
+    console.log(client.$(PASSWORD_TXT_FIELD));
+    console.log("TESTER");
     await client.$(EMAIL_TXT_FIELD).setValue('fakemailtester333@gmail.com');
     await client.$(PASSWORD_TXT_FIELD).setValue('fakepassword333!');
     await client.$(LOGIN_BTN).click();
@@ -123,5 +131,6 @@ test('No Account Found', async() =>{
     await Loading();
 
     const confirmed = await client.$(POPUP).getText();
-    expect(confirmed).toBe('Need help finding your account?');
+    console.log(confirmed);
+    expect(confirmed).toBe('Need help finding your account?' || 'Login Failed');
 });
