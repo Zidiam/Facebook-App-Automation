@@ -59,8 +59,8 @@ async function LogIn(){
 //This runs before any of the tests run
 beforeAll( async()=>{
     //ENTER YOUR EMAIL AND PASSWORD
-    CORRECT_EMAIL = 'zidiamgaming@gmail.com';
-    CORRECT_PASS = '634659Jm';
+    CORRECT_EMAIL = 'lhyqhaz_zamoresen_1639163329@tfbnw.net';
+    CORRECT_PASS = 'kkvhre3e2xn';
 
     //Accessibility ID
     EMAIL_TXT_FIELD = '~Username';
