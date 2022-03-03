@@ -62,6 +62,20 @@ Directory should look like this:
 -package-lock.json
 -package.json
 ```
+## package.json
+Change the package.json from to
+```bash
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  ```
+to this
+```bash
+"scripts": {
+    "test": "jest"
+  },
+```
+
 ## Getting Facebooks API information
 Run Android Emulator
 
